@@ -1,38 +1,22 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
+import Vue from 'vue'
+import App from './App.vue'
+import './registerServiceWorker'
+import router from './router'
+import store from './store'
+import Vuesax from 'vuesax'
 
-import firebase from 'firebase/compat/app';
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+Vue.use(Vuesax, {
+  // options here
+})
 
-const app = createApp(App);
+import './assets/vuesax.css' //Vuesax styles
+import './assets/material-icons.css';
+import './assets/global.css'
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDRamRyCH_VmXSHRGLEGWk5wFLFsJbZWQo",
-  authDomain: "support-bfed7.firebaseapp.com",
-  projectId: "support-bfed7",
-  storageBucket: "support-bfed7.appspot.com",
-  messagingSenderId: "844437503032",
-  appId: "1:844437503032:web:4ee85234951b423646bacd",
-  measurementId: "G-R6W69W5N7M"
-};
+Vue.config.productionTip = false
 
-// Initialize Firebase
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-// const analytics = firebase.analytics(firebaseApp);
-
-app.use(createPinia());
-
-import { useFirebaseAppStore } from '@/stores/firebase'
-const firebaseStore = useFirebaseAppStore()
-firebaseStore.firebase = firebaseApp
-
-import App from "./App.vue";
-import router from "./router";
-
-import "./assets/main.css";
-
-
-app.use(router);
-app.use(ElementPlus)
-app.mount("#app");
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
