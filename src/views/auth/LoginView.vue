@@ -82,6 +82,15 @@ export default {
               icon: "icon-alert-circle"
             })
             break;
+          default:
+            this.$vs.notify({
+              title: "Login Error",
+              text: "An unknown error occurred trying to log you in.",
+              color: "danger",
+              iconPack: "feather",
+              icon: "icon-alert-circle"
+            })
+            break;
         }
       }
     }
