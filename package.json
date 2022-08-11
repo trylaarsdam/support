@@ -1,27 +1,34 @@
 {
   "name": "support",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview --port 4173",
-    "start": "vite build && nodemon ./api/index.js"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "element-plus": "^2.2.12",
-    "firebase": "^9.9.2",
-    "firebaseui": "^6.0.1",
-    "pinia": "^2.0.16",
-    "vue": "^3.2.37",
-    "vue-router": "^4.1.2"
+    "core-js": "^3.8.3",
+    "material-icons": "^1.11.9",
+    "register-service-worker": "^1.7.2",
+    "vue": "^2.6.14",
+    "vue-router": "^3.5.1",
+    "vuesax": "^3.12.2",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.1.0",
-    "@vitejs/plugin-vue": "^3.0.1",
-    "@vitejs/plugin-vue-jsx": "^2.0.0",
-    "@vue/eslint-config-prettier": "^7.0.0",
-    "nodemon": "^2.0.19",
-    "prettier": "^2.5.1",
-    "vite": "^3.0.1"
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-pwa": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "vue-template-compiler": "^2.6.14"
   }
 }

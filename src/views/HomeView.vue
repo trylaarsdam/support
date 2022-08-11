@@ -1,11 +1,16 @@
-<script setup>
-import Auth from "../components/Auth.vue"
-</script>
-
 <template>
-  <main>
-    <div id="auth">
-      <Auth />
-    </div>
-  </main>
+  <div class="home">
+    <img alt="Vue logo" src="../assets/logo.png">
+  </div>
 </template>
+
+<script>
+// @ is an alias to /src
+
+export default {
+  name: 'HomeView',
+  components: {
+    
+  }
+}
+</script>
