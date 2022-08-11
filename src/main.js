@@ -9,8 +9,8 @@ Vue.use(Vuesax, {
   // options here
 })
 
-import './assets/vuesax.css' //Vuesax styles
-import './assets/material-icons.css';
+import 'vuesax/dist/vuesax.css' //Vuesax styles
+import 'material-icons/css/material-icons.css';
 import './assets/global.css'
 
 Vue.config.productionTip = false
