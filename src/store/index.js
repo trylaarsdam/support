@@ -9,7 +9,12 @@ export default new Vuex.Store({
       sidebar: false,
       appBar: true,
       darkMode: false,
-    }
+    },
+    signedInUser: {
+
+    },
+    signedIn: false,
+    
   },
   getters: {
   },

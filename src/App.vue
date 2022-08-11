@@ -3,7 +3,7 @@
     <header>
       <AppBar />
     </header>
-    <router-view/>
+    <router-view style="padding: 1rem;"/>
   </div>
 </template>
 
