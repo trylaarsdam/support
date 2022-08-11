@@ -1,9 +1,11 @@
 <script setup>
-import TheWelcome from "@/components/TheWelcome.vue";
+import Auth from "../components/Auth.vue"
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <div id="auth">
+      <Auth />
+    </div>
   </main>
 </template>

@@ -5,9 +5,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 4173",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+    "start": "vite build && nodemon ./api/index.js"
   },
   "dependencies": {
+    "element-plus": "^2.2.12",
+    "firebase": "^9.9.2",
+    "firebaseui": "^6.0.1",
     "pinia": "^2.0.16",
     "vue": "^3.2.37",
     "vue-router": "^4.1.2"
@@ -17,6 +20,7 @@
     "@vitejs/plugin-vue": "^3.0.1",
     "@vitejs/plugin-vue-jsx": "^2.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
+    "nodemon": "^2.0.19",
     "prettier": "^2.5.1",
     "vite": "^3.0.1"
   }
