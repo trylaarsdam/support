@@ -9,7 +9,7 @@
 
 <script>
 import AppBar from "@/components/nav/AppBar.vue";
-import {auth, onAuthStateChanged} from "@/functions/auth"
+import {auth, onAuthStateChanged, sendEmailVerification} from "@/functions/auth"
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -17,6 +17,20 @@ onAuthStateChanged(auth, (user) => {
     // https://firebase.google.com/docs/reference/js/firebase.User
     const uid = user.uid;
     console.log(`Signed in UID: ${uid}`);
+
+    if(!user.emailVerified) {
+      try {
+        sendEmailVerification(user)
+      } catch (err) {
+        this.$vs.notify({
+          title: "Email Verification Failed",
+          text: "We tried to send you an email to verify your account, but something went wrong. Please create a ticket and include this code: " + err.code,
+          color: "danger",
+          iconPack: "feather",
+          icon: "icon-alert-circle"
+        })
+      }
+    }
     // ...
   } else {
     // User is signed out

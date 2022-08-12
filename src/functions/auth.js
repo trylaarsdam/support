@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  sendEmailVerification,
 } from "firebase/auth";
 
 export {
@@ -11,6 +12,7 @@ export {
   signUp,
   onAuthStateChanged,
   auth,
+  sendEmailVerification
 }
 
 const auth = getAuth(firebase.app);
