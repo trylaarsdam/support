@@ -27,3 +27,15 @@ router.post("/create", async (req, res) => {
     res.status(200).send({status: "success", user: accountDoc})
   }
 })
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  if(req.user.uid == req.params.id) {
+    let account = await db.collection("Users").doc(id).get()
+    res.status(200).send({status: "success", user: account.data()})
+  }
+  else {
+    res.status(403).send("Forbidden to access another user's account data")
+  }
+})

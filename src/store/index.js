@@ -19,8 +19,6 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
-  },
-  actions: {
     showSidebar(state) {
       state.navAppearance.sidebar = true
     },
@@ -32,7 +30,12 @@ export default new Vuex.Store({
     },
     hideAppBar(state) {
       state.navAppearance.appBar = false
+    },
+    setUser(state, user) {
+      state.signedInUser = user
     }
+  },
+  actions: {
   },
   modules: {
   },

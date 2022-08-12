@@ -11,7 +11,8 @@ import {auth} from "@/functions/auth"
 export default ({
   name: "ProfileView",
   data: () => ({
-    authUser: auth.currentUser
+    authUser: auth.currentUser,
+    user: this.$store.state.signedInUser
   }),
   setup() {
     

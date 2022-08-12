@@ -32,7 +32,7 @@ async function signIn(email, password) {
 
 async function signUp(email, password, firstName, lastName) {
   try {
-    let user = await createUserWithEmailAndPassword(auth, email, password)
+    await createUserWithEmailAndPassword(auth, email, password)
 
     await api.updateAPIAuth()
     let response = await api.axios.post(config["api-hostname"] + "/api/v1/accounts/create", {
@@ -43,7 +43,7 @@ async function signUp(email, password, firstName, lastName) {
 
     console.log(response.data)
 
-    return user
+    return response.data
   } catch (err) {
     return err
   } 

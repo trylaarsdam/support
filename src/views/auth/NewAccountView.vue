@@ -41,7 +41,8 @@ export default {
     async login() {
       console.log("Logging in...")
       let response = await auth.signUp(this.email, this.password, this.firstName, this.lastName)
-      if(response.user) {
+      if(response.user != undefined) {
+        this.$store.commit("setUser", response.user)
         this.$router.push("/me")
       } else {
         console.log(response.code)
