@@ -33,7 +33,11 @@ export default {
       console.log("Logging in...")
       let response = await auth.signIn(this.email, this.password)
       if(response.user) {
-        this.$router.push("/me")
+        if (this.$route.query.redirect) {
+          this.$router.push(this.$route.query.redirect)
+        } else {
+          this.$router.push("/me")
+        }
       } else {
         console.log(response.code)
         switch(response.code) {

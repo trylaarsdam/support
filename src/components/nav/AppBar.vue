@@ -9,7 +9,7 @@
       >
       <div slot="title">
         <vs-navbar-title style="color: white;">
-          Support | toddr.org
+          toddr.org
         </vs-navbar-title>
       </div>
 
@@ -32,9 +32,12 @@
   </div>
 </template>
 
-<style lang="css" scoped>
+<style lang="css">
 .navBarItem {
   padding: 0.25rem;
+}
+.vs-navbar--btn-responsive .btn-responsive-line {
+  background: rgb(255, 255, 255) !important;
 }
 </style>
 
@@ -43,7 +46,7 @@ export default {
   name: "AppBar",
   data:()=>({
     activeItem: 0,
-    colorNavBar: "#000000"
+    colorNavBar: "dark"
   })
 }
 </script>

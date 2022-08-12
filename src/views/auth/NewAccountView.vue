@@ -3,7 +3,14 @@
     <h1>Create a new account</h1>
     <vs-row vs-justify="center" style="padding-top: 2rem;">
       <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="6">
-        <vs-input v-on:keyup.enter="login" label-placeholder="Your Name" style="padding-right: 1rem; width: 100%;" v-model="name"/>
+        <vs-row vs-justify="center" style="padding-top: 0rem;">
+          <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="6">
+            <vs-input label-placeholder="First Name" style="padding-right: 1rem; width: 100%;" v-model="firstName"/>
+          </vs-col>
+          <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="6">
+            <vs-input label-placeholder="Last Name" style="padding-right: 1rem; width: 100%;" v-model="lastName"/>
+          </vs-col>
+        </vs-row>
         <vs-input v-on:keyup.enter="login" label-placeholder="Email" style="padding-right: 1rem; padding-top: 1rem; width: 100%;" v-model="email"/>
         <vs-input v-on:keyup.enter="login" label-placeholder="Password" type="password" style="padding-right: 1rem; padding-top: 1rem; padding-bottom: 1rem; width: 100%;" v-model="password"/>
         <vs-button @click="login" style="width: 50%;" color="success">Sign Up</vs-button>
@@ -24,7 +31,8 @@ export default {
   components: {},
   data () {
     return {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: ""
     }
@@ -32,8 +40,9 @@ export default {
   methods: {
     async login() {
       console.log("Logging in...")
-      let response = await auth.signUp(this.email, this.password)
-      if(response.user) {
+      let response = await auth.signUp(this.email, this.password, this.firstName, this.lastName)
+      if(response.user != undefined) {
+        this.$store.commit("setUser", response.user)
         this.$router.push("/me")
       } else {
         console.log(response.code)
