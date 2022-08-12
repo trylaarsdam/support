@@ -4,7 +4,9 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+app.use(cors())
 app.use(express.static(path.join(__dirname, "..", "dist")));
+app.use(require("./apiAuth"))
 app.use("/api/v1", require("./routes/v1"))
 app.use("/api", require("./routes/v1")) // routes to latest API version
 
