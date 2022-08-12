@@ -1,25 +1,35 @@
 <template>
-  <div>
-    <h1>Welcome, {{user.firstName}} {{user.lastName}}</h1>
-    <h4>Contact email: {{authUser.email}}</h4>
+  <div v-if="!this.loading">
+    <h1>Welcome, {{$store.state.signedInUser.firstName}} {{$store.state.signedInUser.lastName}}</h1>
+    <h4>Primary email: {{$store.state.signedInUser.email}}</h4>
+
   </div>
 </template>
 
 <script>
 import {auth} from "@/functions/auth"
 
+async function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default ({
   name: "ProfileView",
-  data: () => ({
-    authUser: auth.currentUser,
-    user: this.$store.state.signedInUser
-  }),
-  setup() {
-    
+  data () {
+    return {
+      authUser: auth.currentUser,
+      user: this.$store.state.signedInUser,
+      loading: true
+    }
   },
-  mounted() {
-    if(!auth.currentUser) {
-      this.$router.push("login?redirect=/me")
+  async mounted() {
+    await delay(500)
+    if (auth.currentUser != null) {
+      this.authUser = auth.currentUser
+      this.loading = false
+    }
+    else {
+      this.$router.push("/login")
     }
   },
 })
