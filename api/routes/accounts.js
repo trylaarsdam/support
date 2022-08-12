@@ -19,5 +19,8 @@ router.post("/create", async (req, res) => {
       createdAt: new Date(),
       id: req.user.uid
     }
+
+    await db.collection("Users").doc(req.user.uid).set(accountDoc);
+    res.status(200).send({status: "success", message: "Account created"})
   }
 })
