@@ -1,6 +1,8 @@
 <template>
-  <h1>Welcome, {{user.firstName}} {{user.lastName}}</h1>
-  <h4>Contact email: {{authUser.email}}</h4>
+  <div>
+    <h1>Welcome, {{user.firstName}} {{user.lastName}}</h1>
+    <h4>Contact email: {{authUser.email}}</h4>
+  </div>
 </template>
 
 <script>
