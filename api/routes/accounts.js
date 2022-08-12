@@ -17,7 +17,8 @@ router.post("/create", async (req, res) => {
       lastName: account.lastName,
       email: account.email,
       createdAt: new Date(),
-      id: req.user.uid
+      id: req.user.uid,
+      role: "user"
     }
 
     await db.collection("Users").doc(req.user.uid).set(accountDoc);

@@ -1,9 +1,17 @@
 const auth = require("./firebase/auth")
+const db = require("./firebase/firestore")
 
 const unauthEndpoints = [
   '/api',
-  '/api/v1',
-  '/api/v1/accounts/create',
+  '/api/v1'
+]
+
+const adminEndpoints = [
+
+]
+
+const staffEndpoints = [
+
 ]
 
 module.exports = async function (req, res, next) {
@@ -22,8 +30,32 @@ module.exports = async function (req, res, next) {
       let authResult = await auth.verifyIDToken(idToken)
 
       if(authResult.status == "authenticated") {
-        req.user = authResult.token
-        next()
+        if(adminEndpoints.includes(req.path)) {
+          const userDoc = (await db.collection("Users").doc(authResult.token.uid).get()).data()
+
+          if(userDoc != undefined && userDoc.role == "admin") {
+            req.user = authResult.token
+            next()
+          }
+          else {
+            res.status(403).send({error: "Forbidden", message: "administrator permissions required"})
+          }
+        } 
+        else if(staffEndpoints.includes(req.path)) {
+          const userDoc = (await db.collection("Users").doc(authResult.token.uid).get()).data()
+
+          if(userDoc != undefined && (userDoc.role == "admin" || userDoc.role == "staff")) {
+            req.user = authResult.token
+            next()
+          }
+          else {
+            res.status(403).send({error: "Forbidden", message: "staff permissions required"})
+          }
+        }
+        else {
+          req.user = authResult.token
+          next()
+        }
       }
       else {
         res.status(401).send({error: "Invalid ID Token", message: authResult.error.toString()})
