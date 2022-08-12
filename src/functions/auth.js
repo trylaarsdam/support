@@ -1,4 +1,7 @@
 const firebase = require("./firebase.js");
+const api = require("./api-requests.js");
+const config = require("../../config.json")
+
 import { 
   getAuth,
   createUserWithEmailAndPassword,
@@ -6,6 +9,8 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
 } from "firebase/auth";
+
+const auth = getAuth(firebase.app);
 
 export {
   signIn,
@@ -15,7 +20,6 @@ export {
   sendEmailVerification
 }
 
-const auth = getAuth(firebase.app);
 
 async function signIn(email, password) {
   try {
@@ -26,9 +30,19 @@ async function signIn(email, password) {
   } 
 }
 
-async function signUp(email, password) {
+async function signUp(email, password, firstName, lastName) {
   try {
     let user = await createUserWithEmailAndPassword(auth, email, password)
+
+    await api.updateAPIAuth()
+    let response = await api.axios.post(config["api-hostname"] + "/api/v1/accounts/create", {
+      firstName: firstName,
+      lastName: lastName,
+      email: email
+    })
+
+    console.log(response.data)
+
     return user
   } catch (err) {
     return err

@@ -7,6 +7,8 @@ module.exports = router
 router.post("/create", async (req, res) => {
   const account = req.body;
 
+  console.log(req.body);
+
   if(account.firstName == undefined || account.lastName == undefined || account.email == undefined) {
     res.status(400).send("Missing required fields")
     return
@@ -22,6 +24,6 @@ router.post("/create", async (req, res) => {
     }
 
     await db.collection("Users").doc(req.user.uid).set(accountDoc);
-    res.status(200).send({status: "success", message: "Account created"})
+    res.status(200).send({status: "success", user: accountDoc})
   }
 })
