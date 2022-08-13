@@ -51,7 +51,7 @@ export default ({
     }
     else {
       this.$vs.loading.close()
-      this.$router.push("/login")
+      this.$router.push("/login?redirect=/me")
     }
   },
 })
