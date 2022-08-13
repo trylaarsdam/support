@@ -28,12 +28,15 @@ export default ({
     }
   },
   async mounted() {
+    this.$vs.loading()
     await delay(500)
     if (auth.currentUser != null) {
       this.authUser = auth.currentUser
       this.loading = false
+      this.$vs.loading.close()
     }
     else {
+      this.$vs.loading.close()
       this.$router.push("/login?redirect=/me/tickets")
     }
   },
