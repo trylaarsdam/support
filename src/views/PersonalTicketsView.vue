@@ -1,13 +1,9 @@
 <template>
   <div v-if="!this.loading">
-    <h1>Welcome, {{$store.state.signedInUser.firstName}} {{$store.state.signedInUser.lastName}}</h1>
+    <h1>Your Tickets</h1>
+    <p>All tickets created by you are displayed here.</p>
     <vs-divider></vs-divider>
-    <h2>Account Information</h2>
-    <p>Contact Email: {{$store.state.signedInUser.email}}</p>
-    <p>Permission Level: {{$store.state.signedInUser.role}}</p>
-    <p>User ID: {{$store.state.signedInUser.id}}</p>
-    <vs-divider></vs-divider>
-    <TicketTable tickets="5" style="padding: 0rem; padding-top: 0rem;" />
+    <TicketTable tickets="12" style="padding: 0rem; padding-top: 0rem;" />
   </div>
 </template>
 
@@ -20,7 +16,7 @@ async function delay(ms) {
 }
 
 export default ({
-  name: "ProfileView",
+  name: "PersonalTicketsView",
   components: {
     TicketTable
   },
@@ -38,7 +34,7 @@ export default ({
       this.loading = false
     }
     else {
-      this.$router.push("/login")
+      this.$router.push("/login?redirect=/me/tickets")
     }
   },
 })

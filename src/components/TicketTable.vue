@@ -2,7 +2,7 @@
   <vs-table
       :data="users" 
       pagination
-      max-items="8"
+      :max-items="tickets"
       search
     >
     <template slot="header">
@@ -55,6 +55,7 @@
 <script>
 export default {
   name: "TicketTable",
+  props: ["tickets"],
   mounted: () => {
     
   },
