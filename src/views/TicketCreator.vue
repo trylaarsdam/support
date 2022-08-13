@@ -83,6 +83,8 @@
 <script>
 import { auth } from "@/functions/auth";
 import Editor from "@tinymce/tinymce-vue";
+const api = require("@/functions/api-requests.js");
+const config = require("../../config.json")
 
 async function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
