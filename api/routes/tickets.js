@@ -19,6 +19,10 @@ router.post("/create", async (req, res) => {
     res.status(400).send("Missing required fields")
     return
   }
+  if(ticket.createdBy != req.user.uid) {
+    res.status(403).send("Forbidden to create ticket for another user")
+    return
+  }
 
   let events = [
     {
