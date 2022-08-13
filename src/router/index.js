@@ -34,6 +34,11 @@ const routes = [
     path: "/new",
     name: "TicketCreator",
     component: () => import(/* webpackChunkName: "TicketCreator" */ "../views/TicketCreator.vue")
+  },
+  {
+    path: "/tickets/:id",
+    name: "TicketViewer",
+    component: () => import(/* webpackChunkName: "TicketViewer" */ "../views/TicketViewer.vue")
   }
   // {
   //   path: '/about',

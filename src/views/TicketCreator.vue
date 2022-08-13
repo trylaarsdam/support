@@ -135,6 +135,7 @@ export default {
             text: "Ticket created successfully",
             color: "success",
           });
+          this.$vs.loading.close();
           this.$router.push("/tickets/" + response.data.ticket.id);
           // console.log(response.data.user);
           // app.$store.commit("setUser", response.data.user);
