@@ -2,12 +2,13 @@
   <div v-if="!this.loading">
     <h1>Welcome, {{$store.state.signedInUser.firstName}} {{$store.state.signedInUser.lastName}}</h1>
     <h4>Primary email: {{$store.state.signedInUser.email}}</h4>
-
+    <TicketTable style="padding: 1rem; padding-top: 2rem;" />
   </div>
 </template>
 
 <script>
 import {auth} from "@/functions/auth"
+import TicketTable from "@/components/TicketTable.vue"
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -15,6 +16,9 @@ async function delay(ms) {
 
 export default ({
   name: "ProfileView",
+  components: {
+    TicketTable
+  },
   data () {
     return {
       authUser: auth.currentUser,

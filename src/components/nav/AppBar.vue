@@ -14,7 +14,7 @@
       </div>
 
       <vs-navbar-item index="0" class="navBarItem">
-        <router-link to="/" type="line">Home</router-link>
+        <router-link to="/me" type="line">Home</router-link>
       </vs-navbar-item>
       <vs-navbar-item index="1" class="navBarItem">
         <router-link to="/me/tickets" type="line">My Tickets</router-link>
@@ -47,6 +47,10 @@ export default {
   data:()=>({
     activeItem: 0,
     colorNavBar: "dark"
-  })
+  }),
+  props: ["user"],
+  mounted () {
+    // console.log(this.$store.state.signedInUser)
+  }
 }
 </script>
