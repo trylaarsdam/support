@@ -1,12 +1,6 @@
 <template>
   <div v-if="!this.loading">
     <h1>New Ticket</h1>
-    <p>
-      Please fill out this form as completely as possible so that we can solve
-      your problem as fast as possible. If you have encountered an issue that
-      could expose user information, or other sensitive info, please select
-      priority "Critical". Please do not use this priority otherwise.
-    </p>
     <vs-divider />
     <vs-row vs-justify="left" style="padding-top: 0rem">
       <vs-col
