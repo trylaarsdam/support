@@ -41,7 +41,12 @@
         vs-w="6"
         style="padding-bottom: 0.5rem"
       >
-        <vs-select class="selectExample" label="" style="padding-right: 0rem; width: 100%" v-model="ticket.priority">
+        <vs-select
+          class="selectExample"
+          label=""
+          style="padding-right: 0rem; width: 100%"
+          v-model="ticket.priority"
+        >
           <vs-select-item
             :key="index"
             :value="item.value"
@@ -69,7 +74,9 @@
            bullist numlist outdent indent | removeformat | help',
       }"
     />
-    <vs-button style="margin-top: 1rem; width: 25%;" @click="createTicket">Create Ticket</vs-button>
+    <vs-button style="margin-top: 1rem; width: 25%" @click="createTicket"
+      >Create Ticket</vs-button
+    >
   </div>
 </template>
 
@@ -104,6 +111,43 @@ export default {
         { value: "backlog", text: "Backlog" },
       ],
     };
+  },
+  methods: {
+    async createTicket() {
+      this.$vs.loading();
+      await delay(200);
+      if (auth.currentUser != null) {
+        await api.updateAPIAuth();
+        let response = await api.axios.post(
+          config["api-hostname"] + "/api/v1/tickets/create",
+          {
+            title: this.ticket.title,
+            description: this.ticket.description,
+            priority: this.ticket.priority,
+            createdBy: this.$store.state.signedInUser.id,
+          }
+        );
+        if (response.data.status == "success") {
+          this.$vs.notify({
+            title: "Success",
+            text: "Ticket created successfully",
+            color: "success",
+          });
+          this.$router.push("/tickets/" + response.data.ticket.id);
+          // console.log(response.data.user);
+          // app.$store.commit("setUser", response.data.user);
+        } else {
+          console.log(response.data);
+        }
+      } else {
+        this.$vs.loading.close();
+        this.$vs.notify({
+          title: "Error",
+          text: "You must be signed in to create a ticket. Please signin and try again.",
+          color: "danger",
+        });
+      }
+    },
   },
   async mounted() {
     this.$vs.loading();

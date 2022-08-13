@@ -12,6 +12,18 @@ const ticketPriorities = [
   "critical"
 ]
 
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * 
+charactersLength));
+ }
+ return result;
+}
+
+
 router.post("/create", async (req, res) => {
   let ticket = req.body
 
@@ -45,7 +57,7 @@ router.post("/create", async (req, res) => {
   }
   
   let construtedTicket = {
-    id: uuid(),
+    id: makeid(7),
     title: ticket.title,
     priority: ticket.priority,
     createdBy: ticket.createdBy,
