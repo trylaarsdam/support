@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
   if (ticket.exists) {
     let ticketData = ticket.data()
     if (ticketData.createdBy == req.user.uid || req.user.uid == "admin" || req.user.uid == "staff") {
-      var events = (await db.collection("Events").where("ticketID", "==", id).get()).docs.map(event => event.data())
+      var events = (await db.collection("Events").where("ticketID", "==", id).orderBy("createdAt", "asc").get()).docs.map(event => event.data())
 
       let users = {}
 

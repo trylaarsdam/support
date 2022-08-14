@@ -13,7 +13,7 @@
         >
           <vs-row
             vs-justify="left"
-            style="padding-top: 0rem"
+            style="padding-bottom: 0.5rem"
             v-for="event in events"
             :key="event.id"
           >
@@ -32,25 +32,10 @@
             />
             <EventCard
               v-if="event.type == 'assignedTo'"
-              :event="event.userName + ' assigned this ticket to ' + event.assigneeName"
+              :event="event.userName + ' assigned this ticket to ' + event.assigneeID"
               :timestamp="event.createdAt._seconds"
             />
           </vs-row>
-          <!-- <vs-row vs-justify="left" style="padding-top: 0rem">
-            <ReplyCard
-              :reply="{
-                message: 'Hello',
-                createdAt: 1660356496,
-                userID: 'Test author',
-              }"
-            />
-          </vs-row>
-          <vs-row vs-justify="left" style="padding-top: 0rem">
-            <EventCard
-              event="Priority changed to urgent"
-              timestamp="1660356496"
-            />
-          </vs-row> -->
         </vs-col>
         <vs-col
           type="flex"
