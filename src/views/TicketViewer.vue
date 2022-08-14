@@ -26,9 +26,14 @@
               }"
             />
             <EventCard
-              v-if="event.type == 'priority'"
-              event="Priority changed to urgent"
-              timestamp="1660356496"
+              v-if="event.type == 'priorityChanged'"
+              :event="'Priority changed to ' + event.priority + ' by ' + event.userName"
+              :timestamp="event.createdAt._seconds"
+            />
+            <EventCard
+              v-if="event.type == 'assignedTo'"
+              :event="event.userName + ' assigned this ticket to ' + event.assigneeName"
+              :timestamp="event.createdAt._seconds"
             />
           </vs-row>
           <!-- <vs-row vs-justify="left" style="padding-top: 0rem">
