@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!this.loading">
-      <h1>Ticket | {{ this.ticket.title }}</h1>
+      <h1>Ticket | {{ ticket.title }}</h1>
       <vs-divider></vs-divider>
       <vs-row vs-justify="center" style="padding-top: 0.5rem">
         <vs-col
@@ -10,17 +10,42 @@
           vs-align="left"
           vs-w="9"
           style="padding-right: 2rem"
-
         >
-          <vs-row vs-justify="left" style="padding-top: 0rem">
-            <ReplyCard :reply="{message: 'Hello', createdAt: 1660356496, userID: 'Test author'}" />
+          <vs-row
+            vs-justify="left"
+            style="padding-top: 0rem"
+            v-for="event in events"
+            :key="event.id"
+          >
+            <ReplyCard
+              v-if="event.type == 'message' || event.type== 'initialMessage'"
+              :reply="{
+                message: event.message,
+                createdAt: event.createdAt._seconds,
+                userName: event.userName,
+              }"
+            />
+            <EventCard
+              v-if="event.type == 'priority'"
+              event="Priority changed to urgent"
+              timestamp="1660356496"
+            />
+          </vs-row>
+          <!-- <vs-row vs-justify="left" style="padding-top: 0rem">
+            <ReplyCard
+              :reply="{
+                message: 'Hello',
+                createdAt: 1660356496,
+                userID: 'Test author',
+              }"
+            />
           </vs-row>
           <vs-row vs-justify="left" style="padding-top: 0rem">
-            <ReplyCard :reply="{message: 'Hello', createdAt: 1660356496, userID: 'Test author'}" />
-          </vs-row>
-          <vs-row vs-justify="left" style="padding-top: 0rem">
-            <EventCard event="Priority changed to urgent" timestamp="1660356496" />
-          </vs-row>
+            <EventCard
+              event="Priority changed to urgent"
+              timestamp="1660356496"
+            />
+          </vs-row> -->
         </vs-col>
         <vs-col
           type="flex"
@@ -29,33 +54,49 @@
           vs-w="3"
           style="padding-top: 0rem"
         >
-          <vs-row vs-justify="center" vs-align="center" style="padding-top: 0rem">
+          <vs-row
+            vs-justify="center"
+            vs-align="center"
+            style="padding-top: 0rem"
+          >
             <vs-col type="flex" vs-w="12">
               <h3>Ticket Details</h3>
             </vs-col>
           </vs-row>
-          <vs-row vs-justify="center" vs-align="center" style="padding-top: 0rem">
+          <vs-row
+            vs-justify="center"
+            vs-align="center"
+            style="padding-top: 0rem"
+          >
             <vs-col type="flex" vs-w="12">
               <vs-divider />
             </vs-col>
           </vs-row>
-          <vs-row vs-justify="center" vs-align="center" style="padding-top: 0rem">
+          <vs-row
+            vs-justify="center"
+            vs-align="center"
+            style="padding-top: 0rem"
+          >
             <vs-col type="flex" vs-w="6">
               <p>Assignee:</p>
             </vs-col>
             <vs-col type="flex" vs-w="6" vs-justify="center" vs-align="center">
-              <vs-chip v-if="ticket.assignee" color="primary">
-                {{ ticket.assignee }}
+              <vs-chip v-if="ticket.assignedTo" color="primary">
+                {{ ticket.assignedTo }}
               </vs-chip>
               <vs-chip v-else color="danger"> Unassigned </vs-chip>
             </vs-col>
           </vs-row>
-          <vs-row vs-justify="center" vs-align="center" style="padding-top: 0rem">
+          <vs-row
+            vs-justify="center"
+            vs-align="center"
+            style="padding-top: 0rem"
+          >
             <vs-col type="flex" vs-w="6">
               <p>Priority:</p>
             </vs-col>
             <vs-col type="flex" vs-w="6" vs-justify="center" vs-align="center">
-              <vs-chip color="primary"> {{ticket.priority}} </vs-chip>
+              <vs-chip color="primary"> {{ ticket.priority }} </vs-chip>
             </vs-col>
           </vs-row>
           <vs-row
@@ -113,7 +154,7 @@ export default {
   name: "TicketViewer",
   components: {
     ReplyCard,
-    EventCard
+    EventCard,
   },
   methods: {
     moment: function (date) {
@@ -127,6 +168,7 @@ export default {
       loading: true,
       unauthorized: false,
       ticket: {},
+      events: [],
     };
   },
   async mounted() {
@@ -141,7 +183,12 @@ export default {
       );
 
       if (response.data.status == "success") {
-        this.ticket = response.data.ticket;
+        this.ticket = response.data.data.ticket;
+        this.events = response.data.data.events;
+        console.log("Ticket");
+        console.log(this.ticket);
+        console.log("Events");
+        console.log(this.events);
         this.loading = false;
       } else {
         this.$vs.notify({

@@ -3,7 +3,7 @@
     <div>
       <vs-row style="padding-bottom: 0.5rem" vs-align="center">
         <vs-col type="flex" vs-w="6">
-          <vs-chip color="primary"> {{reply.userID}} </vs-chip>
+          <vs-chip color="primary"> {{reply.userName}} </vs-chip>
         </vs-col>
         <vs-col type="flex" vs-w="6" vs-justify="right" vs-align="center">
           <p style="float: right">

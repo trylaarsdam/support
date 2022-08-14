@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
   if (ticket.exists) {
     let ticketData = ticket.data()
     if (ticketData.createdBy == req.user.uid || req.user.uid == "admin" || req.user.uid == "staff") {
-      let events = (await db.collection("Events").where("ticketId", "==", id).get()).map(event => event.data())
+      var events = (await db.collection("Events").where("ticketID", "==", id).get()).docs.map(event => event.data())
 
       let users = {}
 
@@ -75,6 +75,22 @@ router.get("/:id", async (req, res) => {
         }
       }
 
+      if(ticketData.assignedTo != undefined) {
+        if(users[ticketData.assignedTo] != undefined) {
+          ticketData.assignedTo = users[ticketData.assignedTo].firstName + " " + users[ticketData.assignedTo].lastName
+        }
+        else {
+          let user = await db.collection("Users").doc(ticketData.assignedTo).get()
+          if (user.exists) {
+            users[ticketData.assignedTo] = user.data()
+            ticketData.assignedTo = users[ticketData.assignedTo].firstName + " " + users[ticketData.assignedTo].lastName
+          }
+          else {
+            ticketData.assignedTo = "Unknown User"
+          }
+        }
+      }
+
       let assembledData = {
         ticket: ticketData,
         events: events
@@ -101,13 +117,16 @@ router.post("/create", async (req, res) => {
     return
   }
 
+  let ticketID = makeid(7)
+
   let events = [
     {
       type: "initialMessage",
       message: ticket.description,
       createdAt: new Date(),
       userID: ticket.createdBy,
-      id: uuid()
+      id: uuid(),
+      ticketID: ticketID
     }
   ]
 
@@ -117,7 +136,8 @@ router.post("/create", async (req, res) => {
       type: "priorityChanged",
       createdAt: new Date() + 1000,
       userID: "system",
-      id: uuid()
+      id: uuid(),
+      ticketID: ticketID
     })
   }
 
