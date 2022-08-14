@@ -61,6 +61,20 @@ router.get("/:id", async (req, res) => {
         }
       }
 
+      if(users[ticketData.createdBy] != undefined) {
+        ticketData.createdBy = users[ticketData.createdBy].firstName + " " + users[ticketData.createdBy].lastName
+      }
+      else {
+        let user = await db.collection("Users").doc(ticketData.createdBy).get()
+        if (user.exists) {
+          users[ticketData.createdBy] = user.data()
+          ticketData.createdBy = users[ticketData.createdBy].firstName + " " + users[ticketData.createdBy].lastName
+        }
+        else {
+          ticketData.createdBy = "Unknown User"
+        }
+      }
+
       let assembledData = {
         ticket: ticketData,
         events: events
