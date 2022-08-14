@@ -30,9 +30,42 @@ router.get("/:id", async (req, res) => {
   if (ticket.exists) {
     let ticketData = ticket.data()
     if (ticketData.createdBy == req.user.uid || req.user.uid == "admin" || req.user.uid == "staff") {
-      let events = await db.collection("Events").where("ticketId", "==", id).get()
+      let events = (await db.collection("Events").where("ticketId", "==", id).get()).map(event => event.data())
 
-      res.status(200).send({ status: "success", ticket: ticketData })
+      let users = {}
+
+      for (var event of events) {
+        if (users[event.userID] != undefined) {
+          try {
+            event.userName = users[event.userID].firstName + " " + users[event.userID].lastName
+          } catch {
+            let user = await db.collection("Users").doc(event.userID).get()
+            if (user.exists) {
+              users[event.userID] = user.data()
+              event.userName = users[event.userID].firstName + " " + users[event.userID].lastName
+            }
+            else {
+              event.userName = "Unknown User"
+            }
+          }
+        }
+        else {
+          let user = await db.collection("Users").doc(event.userID).get()
+          if (user.exists) {
+            users[event.userID] = user.data()
+            event.userName = users[event.userID].firstName + " " + users[event.userID].lastName
+          }
+          else {
+            event.userName = "Unknown User"
+          }
+        }
+      }
+
+      let assembledData = {
+        ticket: ticketData,
+        events: events
+      }
+      res.status(200).send({ status: "success", data: assembledData })
     }
     else {
       res.status(403).send({ status: "error", message: "Forbidden to access another user's ticket data" })
