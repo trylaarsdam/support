@@ -17,13 +17,15 @@
     </vs-row>
     
     <vs-divider></vs-divider>
-    <TicketTable tickets="5" style="padding: 0rem; padding-top: 0rem;" />
+    <TicketTable :perPage="5" :tickets="tickets" style="padding: 0rem; padding-top: 0rem;" />
   </div>
 </template>
 
 <script>
 import {auth} from "@/functions/auth"
 import TicketTable from "@/components/TicketTable.vue"
+const api = require("@/functions/api-requests.js");
+const config = require("../../config.json")
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -46,6 +48,23 @@ export default ({
     await delay(500)
     if (auth.currentUser != null) {
       this.authUser = auth.currentUser
+
+      await api.updateAPIAuth();   
+      let response = await api.axios.get(config["api-hostname"] + "/api/v1/tickets/get/created")
+      if(response.data.status == "success") {
+        this.loading = false
+        this.tickets = response.data.tickets
+      } else {
+        this.loading = false
+        this.$vs.notify({
+          title: 'Error loading tickets',
+          text: response.data.message,
+          color: 'danger',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle'
+        })
+      }
+
       this.loading = false
       this.$vs.loading.close()
     }

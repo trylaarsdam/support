@@ -1,8 +1,8 @@
 <template>
   <vs-table
-      :data="users" 
+      :data="tickets" 
       pagination
-      :max-items="tickets"
+      :max-items="perPage"
       search
     >
     <template slot="header">
@@ -21,7 +21,7 @@
     <template slot-scope="{ data }">
       <vs-tr
         :key="indextr"
-        v-for="(tr, indextr) in data"
+        v-for="(tr, indextr) in tickets"
       >
         <vs-td :data="data[indextr].id">
           {{ data[indextr].id }}
@@ -31,19 +31,19 @@
           {{ data[indextr].title }}
         </vs-td>
 
-        <vs-td :data="data[indextr].id">
-          {{ data[indextr].id }}
+        <vs-td :data="data[indextr].assignedTo">
+          {{ data[indextr].assignedTo == undefined ? "Unassigned" : data[indextr].assignedTo }}
         </vs-td>
 
         <vs-td :data="data[indextr].updatedAt">
-          {{ data[indextr].updatedAt }}
+          {{ moment(data[indextr].updatedAt._seconds) }}
         </vs-td>
 
         <vs-td
           :data="data[indextr].id"
           style="position: relative; float: right"
         >
-          <router-link :to="'/ticket/' + data[indextr].id">
+          <router-link :to="'/tickets/' + data[indextr].id">
             <vs-button color="primary" type="border">View</vs-button>
           </router-link>
         </vs-td>
@@ -53,85 +53,31 @@
 </template>
 
 <script>
+const moment = require("moment");
+
+
 export default {
   name: "TicketTable",
-  props: ["tickets"],
+  props: {
+    tickets: {
+      type: Array,
+      required: true,
+    },
+    perPage: {
+      type: Number,
+      required: true,
+    }
+  },
+  methods: {
+    moment: function (date) {
+      return moment(new Date(date * 1000)).format("MM-DD-YYYY, h:mm:ss a");
+    },
+  },
   mounted: () => {
     
   },
   data: () => ({
-    users: [
-      {
-        id: 1,
-        assignee: "Leanne Graham",
-        title: "Bret",
-        email: "Sincere@april.biz",
-        updatedAt: "hildegard.org",
-      },
-      {
-        id: 2,
-        assignee: "Ervin Howell",
-        title: "Antonette",
-        email: "Shanna@melissa.tv",
-        updatedAt: "anastasia.net",
-      },
-      {
-        id: 3,
-        assignee: "Clementine Bauch",
-        title: "Samantha",
-        email: "Nathan@yesenia.net",
-        updatedAt: "ramiro.info",
-      },
-      {
-        id: 4,
-        assignee: "Patricia Lebsack",
-        title: "Karianne",
-        email: "Julianne.OConner@kory.org",
-        updatedAt: "kale.biz",
-      },
-      {
-        id: 5,
-        assignee: "Chelsey Dietrich",
-        title: "Kamren",
-        email: "Lucio_Hettinger@annie.ca",
-        updatedAt: "demarco.info",
-      },
-      {
-        id: 6,
-        assignee: "Mrs. Dennis Schulist",
-        title: "Leopoldo_Corkery",
-        email: "Karley_Dach@jasper.info",
-        updatedAt: "ola.org",
-      },
-      {
-        id: 7,
-        assignee: "Kurtis Weissnat",
-        title: "Elwyn.Skiles",
-        email: "Telly.Hoeger@billy.biz",
-        updatedAt: "elvis.io",
-      },
-      {
-        id: 8,
-        assignee: "Nicholas Runolfsdottir V",
-        title: "Maxime_Nienow",
-        email: "Sherwood@rosamond.me",
-        updatedAt: "jacynthe.com",
-      },
-      {
-        id: 9,
-        assignee: "Glenna Reichert",
-        title: "Delphine",
-        email: "Chaim_McDermott@dana.io",
-        updatedAt: "conrad.com",
-      },
-      {
-        id: 10,
-        assignee: "Clementina DuBuque",
-        title: "Moriah.Stanton",
-        email: "Rey.Padberg@karina.biz",
-        updatedAt: "ambrose.net",
-      },
-    ],
+   
   }),
 };
 </script>

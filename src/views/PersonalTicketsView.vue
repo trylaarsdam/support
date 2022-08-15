@@ -3,7 +3,7 @@
     <h1>Your Tickets</h1>
     <p>All tickets created by you are displayed here.</p>
     <vs-divider></vs-divider>
-    <TicketTable tickets="12" style="padding: 0rem; padding-top: 0rem;" />
+    <TicketTable :perPage="12" :tickets="tickets" style="padding: 0rem; padding-top: 0rem;" />
   </div>
 </template>
 
@@ -41,6 +41,15 @@ export default ({
       if(response.data.status == "success") {
         this.loading = false
         this.tickets = response.data.tickets
+      } else {
+        this.loading = false
+        this.$vs.notify({
+          title: 'Error loading tickets',
+          text: response.data.message,
+          color: 'danger',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle'
+        })
       }
 
       this.loading = false
