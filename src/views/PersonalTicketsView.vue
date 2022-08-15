@@ -1,23 +1,9 @@
 <template>
   <div v-if="!this.loading">
-    <h1>Welcome, {{$store.state.signedInUser.firstName}} {{$store.state.signedInUser.lastName}}</h1>
+    <h1>Your Tickets</h1>
+    <p>All tickets created by you are displayed here.</p>
     <vs-divider></vs-divider>
-    <vs-row vs-justify="center" style="padding-top: 0rem;">
-      <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="6">
-        <h2>Account Information</h2>
-        <p>Contact Email: {{$store.state.signedInUser.email}}</p>
-        <p>Permission Level: {{$store.state.signedInUser.role.charAt(0).toUpperCase() + $store.state.signedInUser.role.slice(1)}}</p>
-        <p>User ID: {{$store.state.signedInUser.id}}</p>
-      </vs-col>
-      <vs-col type="flex" vs-justify="center" vs-align="center" vs-w="6">
-        <vs-td style="position: relative; float: right;">
-          <vs-button @click="$router.push('/new')">Create ticket</vs-button>
-        </vs-td>
-      </vs-col>
-    </vs-row>
-    
-    <vs-divider></vs-divider>
-    <TicketTable :perPage="5" :tickets="tickets" style="padding: 0rem; padding-top: 0rem;" />
+    <TicketTable :perPage="12" :tickets="tickets" style="padding: 0rem; padding-top: 0rem;" />
   </div>
 </template>
 
@@ -32,7 +18,7 @@ async function delay(ms) {
 }
 
 export default ({
-  name: "ProfileView",
+  name: "PersonalTicketsView",
   components: {
     TicketTable
   },
@@ -40,7 +26,8 @@ export default ({
     return {
       authUser: auth.currentUser,
       user: this.$store.state.signedInUser,
-      loading: true
+      loading: true,
+      tickets: []
     }
   },
   async mounted() {
@@ -70,7 +57,7 @@ export default ({
     }
     else {
       this.$vs.loading.close()
-      this.$router.push("/login?redirect=/me")
+      this.$router.push("/login?redirect=/me/tickets")
     }
   },
 })

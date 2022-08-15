@@ -19,6 +19,11 @@
 
 <script>
 const auth = require("@/functions/auth")
+
+async function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default {
   name: "LoginView",
   components: {},
@@ -26,6 +31,17 @@ export default {
     return {
       email: "",
       password: ""
+    }
+  },
+  async mounted() {
+    if(this.$route.query.redirect != undefined) {
+      await delay(200)
+      this.$vs.notify({
+        title: "Login Required",
+        text: "You need to login to access that page. Once you login you will be redirected to your original destination.",
+        color: "primary",
+        iconPack: "feather"
+      })
     }
   },
   methods: {

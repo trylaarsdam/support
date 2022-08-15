@@ -14,7 +14,7 @@
       </div>
 
       <vs-navbar-item index="0" class="navBarItem">
-        <router-link to="/" type="line">Home</router-link>
+        <router-link to="/me" type="line">Home</router-link>
       </vs-navbar-item>
       <vs-navbar-item index="1" class="navBarItem">
         <router-link to="/me/tickets" type="line">My Tickets</router-link>
@@ -23,10 +23,10 @@
         <router-link to="/new" type="line">Create Ticket</router-link>
       </vs-navbar-item>
       <vs-navbar-item index="3" class="navBarItem">
-        <router-link to="signup" style="color: rgb(5, 173, 88)" type="line">Sign Up</router-link>
+        <router-link to="/signup" style="color: rgb(5, 173, 88)" type="line">Sign Up</router-link>
       </vs-navbar-item>
       <vs-navbar-item index="4" class="navBarItem">
-        <router-link to="login" style="color: rgb(5, 173, 88)" type="line">Login</router-link>
+        <router-link to="/login" style="color: rgb(5, 173, 88)" type="line">Login</router-link>
       </vs-navbar-item>
     </vs-navbar>
   </div>
@@ -47,6 +47,10 @@ export default {
   data:()=>({
     activeItem: 0,
     colorNavBar: "dark"
-  })
+  }),
+  props: ["user"],
+  mounted () {
+    // console.log(this.$store.state.signedInUser)
+  }
 }
 </script>

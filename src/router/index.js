@@ -24,6 +24,21 @@ const routes = [
     path: "/me",
     name: "profile",
     component: () => import(/* webpackChunkName: "profile" */ "../views/ProfileView.vue")
+  },
+  {
+    path: "/me/tickets",
+    name: "personalTickets",
+    component: () => import(/* webpackChunkName: "personalTickets" */ "../views/PersonalTicketsView.vue")
+  },
+  {
+    path: "/new",
+    name: "TicketCreator",
+    component: () => import(/* webpackChunkName: "TicketCreator" */ "../views/TicketCreator.vue")
+  },
+  {
+    path: "/tickets/:id",
+    name: "TicketViewer",
+    component: () => import(/* webpackChunkName: "TicketViewer" */ "../views/TicketViewer.vue")
   }
   // {
   //   path: '/about',

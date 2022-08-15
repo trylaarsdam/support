@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <AppBar />
+      <AppBar :user="this.$store.state.signedInUser" />
     </header>
     <router-view style="padding: 1rem;"/>
   </div>
