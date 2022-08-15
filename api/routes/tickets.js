@@ -25,6 +25,7 @@ function makeid(length) {
 
 router.get("/get/created", async (req, res) => {
   const user = req.user
+  console.log(user.uid)
   const tickets = await db.collection("Tickets").where("createdBy", "==", user.uid).get()
   const ticketsArray = []
   tickets.forEach(ticket => {
@@ -50,21 +51,23 @@ router.get("/get/created", async (req, res) => {
 
     ticketsArray[ticketsArray.indexOf(ticket)].createdBy = users[ticket.createdBy].firstName + " " + users[ticket.createdBy].lastName
 
-    if(users[ticket.assignedTo] == undefined) {
-      let user = await db.collection("Users").doc(ticket.assignedTo).get()
-      if(user.exists) {
-        users[ticket.assignedTo] = user.data()
-      } else {
-        users[ticket.assignedTo] = {
-          firstName: "Unknown",
-          lastName: "User",
-          email: "Unknown",
-          id: uuid()
+    if(ticket.assignedTo != undefined) {
+      if(users[ticket.assignedTo] == undefined) {
+        let user = await db.collection("Users").doc(ticket.assignedTo).get()
+        if(user.exists) {
+          users[ticket.assignedTo] = user.data()
+        } else {
+          users[ticket.assignedTo] = {
+            firstName: "Unknown",
+            lastName: "User",
+            email: "Unknown",
+            id: uuid()
+          }
         }
       }
-    }
 
-    ticketsArray[ticketsArray.indexOf(ticket)].assignedTo = users[ticket.assignedTo].firstName + " " + users[ticket.assignedTo].lastName
+      ticketsArray[ticketsArray.indexOf(ticket)].assignedTo = users[ticket.assignedTo].firstName + " " + users[ticket.assignedTo].lastName
+    }
   }
 
   res.status(200).send({ status: "success", tickets: ticketsArray })
