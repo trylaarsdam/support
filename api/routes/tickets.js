@@ -23,6 +23,53 @@ function makeid(length) {
   return result;
 }
 
+router.get("/get/created", async (req, res) => {
+  const user = req.user
+  const tickets = await db.collection("Tickets").where("createdBy", "==", user.uid).get()
+  const ticketsArray = []
+  tickets.forEach(ticket => {
+    ticketsArray.push(ticket.data())
+  })
+
+  let users = {}
+
+  for(var ticket of ticketsArray) {
+    if(users[ticket.createdBy] == undefined) {
+      let user = await db.collection("Users").doc(ticket.createdBy).get()
+      if(user.exists) {
+        users[ticket.createdBy] = user.data()
+      } else {
+        users[ticket.createdBy] = {
+          firstName: "Unknown",
+          lastName: "User",
+          email: "Unknown",
+          id: uuid()
+        }
+      }
+    }
+
+    ticketsArray[ticketsArray.indexOf(ticket)].createdBy = users[ticket.createdBy].firstName + " " + users[ticket.createdBy].lastName
+
+    if(users[ticket.assignedTo] == undefined) {
+      let user = await db.collection("Users").doc(ticket.assignedTo).get()
+      if(user.exists) {
+        users[ticket.assignedTo] = user.data()
+      } else {
+        users[ticket.assignedTo] = {
+          firstName: "Unknown",
+          lastName: "User",
+          email: "Unknown",
+          id: uuid()
+        }
+      }
+    }
+
+    ticketsArray[ticketsArray.indexOf(ticket)].assignedTo = users[ticket.assignedTo].firstName + " " + users[ticket.assignedTo].lastName
+  }
+
+  res.status(200).send({ status: "success", tickets: ticketsArray })
+})
+
 router.get("/:id", async (req, res) => {
   let id = req.params.id;
 
@@ -61,7 +108,7 @@ router.get("/:id", async (req, res) => {
         }
       }
 
-      if(users[ticketData.createdBy] != undefined) {
+      if (users[ticketData.createdBy] != undefined) {
         ticketData.createdBy = users[ticketData.createdBy].firstName + " " + users[ticketData.createdBy].lastName
       }
       else {
@@ -75,8 +122,8 @@ router.get("/:id", async (req, res) => {
         }
       }
 
-      if(ticketData.assignedTo != undefined) {
-        if(users[ticketData.assignedTo] != undefined) {
+      if (ticketData.assignedTo != undefined) {
+        if (users[ticketData.assignedTo] != undefined) {
           ticketData.assignedTo = users[ticketData.assignedTo].firstName + " " + users[ticketData.assignedTo].lastName
         }
         else {
@@ -91,8 +138,8 @@ router.get("/:id", async (req, res) => {
         }
       }
 
-      if(ticketData.assigneeID != undefined) {
-        if(users[ticketData.assigneeID] != undefined) {
+      if (ticketData.assigneeID != undefined) {
+        if (users[ticketData.assigneeID] != undefined) {
           ticketData.assignedTo = users[ticketData.assigneeID].firstName + " " + users[ticketData.assigneeID].lastName
         }
         else {
