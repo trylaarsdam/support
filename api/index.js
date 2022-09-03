@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express(); // create express app
-const path = require("path");
-const bodyParser = require('body-parser');
+// const path = require("path");
+// const bodyParser = require('body-parser');
 const cors = require('cors');
 
 app.use(cors("*"))

@@ -109,6 +109,33 @@ router.get("/:id", async (req, res) => {
             event.userName = "Unknown User"
           }
         }
+
+        if(event.assignedTo != undefined) {
+          if (users[event.assignedTo] != undefined) {
+            try {
+              event.assignedTo = users[event.assignedTo].firstName + " " + users[event.assignedTo].lastName
+            } catch {
+              let user = await db.collection("Users").doc(event.assignedTo).get()
+              if (user.exists) {
+                users[event.assignedTo] = user.data()
+                event.assignedTo = users[event.assignedTo].firstName + " " + users[event.assignedTo].lastName
+              }
+              else {
+                event.assignedTo = "Unknown User"
+              }
+            }
+          }
+          else {
+            let user = await db.collection("Users").doc(event.assignedTo).get()
+            if (user.exists) {
+              users[event.assignedTo] = user.data()
+              event.assignedTo = users[event.assignedTo].firstName + " " + users[event.assignedTo].lastName
+            }
+            else {
+              event.assignedTo = "Unknown User"
+            }
+          }
+        }
       }
 
       if (users[ticketData.createdBy] != undefined) {
